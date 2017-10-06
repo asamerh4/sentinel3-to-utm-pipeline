@@ -31,7 +31,7 @@ export container='{"type":"DOCKER","docker":{"image":"","parameters":[{"key":"me
 
 #query s3 and print TaskGroupInfo to stdout
 aws --endpoint-url https://obs.eu-de.otc.t-systems.com s3api list-objects \
---max-items 150 \
+--max-items 1000000 \
 --bucket $SOURCE_BUCKET \
 --prefix frames \
 --output json |
@@ -49,7 +49,7 @@ jq '[.Contents[].Key | select(. | contains("xfdumanifest.xml"))] | map( . as $o 
     [
 	  {"name":"USERDATA_MTD_URL","value":(env.USERDATA_MTD_URL)},
       {"name":"S3_INPUT_PRODUCT_PREFIX","value":("s3://"+env.SOURCE_BUCKET+"/"+$o | rtrimstr(env.UNIQUE_FILE))},
-      {"name":"S3_OUTPUT_PRODUCT_PREFIX","value":("s3://"+env.TARGET_BUCKET+"/"+$o| rtrimstr(env.UNIQUE_FILE))},
+      {"name":"S3_OUTPUT_PRODUCT_PREFIX","value":("s3://"+env.TARGET_BUCKET+"/")},
       {"name":"S3_PRODUCT_INFO_PREFIX","value":(env.S3_PRODUCT_INFO_PREFIX)}
     ]
   ),
