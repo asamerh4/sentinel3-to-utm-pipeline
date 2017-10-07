@@ -33,7 +33,7 @@ export container='{"type":"DOCKER","docker":{"image":"","parameters":[{"key":"me
 aws --endpoint-url https://obs.eu-de.otc.t-systems.com s3api list-objects \
 --max-items 1000000 \
 --bucket $SOURCE_BUCKET \
---prefix frames/086 \
+--prefix frames \
 --output json |
 jq '[.Contents[].Key | select(. | contains("xfdumanifest.xml"))] | map( . as $o | split("/")|
 {
