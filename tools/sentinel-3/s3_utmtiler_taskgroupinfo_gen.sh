@@ -20,7 +20,7 @@ set -e
 # SOURCE_BUCKET=""         -> Source bucket of L1 products/frames (string)
 # TARGET_BUCKET=""         -> Bucket where results are written to
 # UNIQUE_FILE=""           -> Unique file pattern inside a single tile S3-folder (string)
-
+# S3_INPUT_PREFIX=""       -> input product (path)prefix (string)
 #ENV-VARS - END
 
 #JSON skeletons for TaskInfo mesos.proto
@@ -33,7 +33,7 @@ export container='{"type":"DOCKER","docker":{"image":"","parameters":[{"key":"me
 aws --endpoint-url https://obs.eu-de.otc.t-systems.com s3api list-objects \
 --max-items 1000000 \
 --bucket $SOURCE_BUCKET \
---prefix frames \
+--prefix $S3_INPUT_PREFIX \
 --output json |
 jq '[.Contents[].Key | select(. | contains("xfdumanifest.xml"))] | map( . as $o | split("/")|
 {
